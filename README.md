@@ -1,7 +1,5 @@
 # XOrithm Invoice Analytics API
 
-**Live Demo:** [http://13.62.71.198:8000/](http://13.62.71.198:8000/)
-
 ---
 
 ## Overview
