@@ -1,0 +1,37 @@
+# Virtual envs
+.venv/
+venv/
+
+# Local env vars
+.env
+
+# IDE/project files
+.idea/
+.vscode/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# pytest cache
+.pytest_cache/
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# SQLite files from tests
+*.db
+test.db
+
+# Misc editors
+*.swp
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Alembic caches
+alembic/__pycache__/
+alembic/versions/__pycache__/

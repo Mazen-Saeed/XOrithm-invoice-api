@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+
+  db:
+    image: postgres:14
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: invoice_user
+      POSTGRES_PASSWORD: mazenUser
+      POSTGRES_DB: invoices_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    # Run Alembic, then Uvicorn:
+    command: >
+      /bin/sh -c "alembic upgrade head &&
+                  uvicorn main:app --host 0.0.0.0 --port 8000"
+    # Optionally mount code for live-reload during development:
+    # volumes:
+    #   - .:/app
+
+volumes:
+  pgdata:

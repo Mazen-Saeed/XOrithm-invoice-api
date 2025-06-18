@@ -1,0 +1,63 @@
+type Account {
+  id: ID!
+  name: String!
+  email: String!
+  invoices: [Invoice!]!
+}
+
+type Invoice {
+  id: ID!
+  amount_original: Float!
+  currency: String!
+  amount_default: Float!
+  created_at: String!
+  account: Account!
+}
+
+type Analytics {
+  totalRevenue(currency: String): Float!
+  averageInvoice(currency: String): Float!
+}
+
+type Query {
+  account(id: ID!): Account
+  accountByEmail(email: String!): Account
+  allAccounts: [Account!]!
+  invoice(id: ID!): Invoice
+  allInvoices: [Invoice!]!
+  invoicesByAccount(accountId: ID!): [Invoice!]!
+  analytics: Analytics!
+}
+
+input CreateAccountInput {
+  name: String!
+  email: String!
+}
+
+input UpdateAccountInput {
+  name: String!
+  email: String!
+}
+
+input CreateInvoiceInput {
+  amount_original: Float!
+  currency: String!
+  account_id: ID!
+}
+
+input UpdateInvoiceInput {
+  amount_original: Float!
+  currency: String!
+  account_id: ID!
+}
+
+type Mutation {
+  createAccount(input: CreateAccountInput!): Account!
+  updateAccount(id: ID!, input: UpdateAccountInput!): Account!
+  deleteAccount(id: ID!): Boolean!
+
+  createInvoice(input: CreateInvoiceInput!): Invoice!
+  updateInvoice(id: ID!, input: UpdateInvoiceInput!): Invoice!
+  deleteInvoice(id: ID!): Boolean!
+  deleteAllInvoices: Boolean!
+}
