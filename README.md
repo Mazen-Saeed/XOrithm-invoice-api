@@ -39,7 +39,7 @@ Full API documentation: http://13.62.71.198:8000/docs
 ### Accounts
 
 - `POST   /api/accounts/` — Create account
-- `GET    /api/accounts/` — Get account by email
+- `GET    /api/accounts/?email=account-email` — Get account by email
 - `GET    /api/accounts/{account_id}` — Get account by ID
 - `PUT    /api/accounts/{account_id}` — Update account
 - `DELETE /api/accounts/{account_id}` — Delete account and invoices
@@ -59,6 +59,8 @@ Full API documentation: http://13.62.71.198:8000/docs
 
 - `GET    /api/analytics/total` — Total revenue
 - `GET    /api/analytics/average` — Average invoice
+
+All analytics support an optional currency parameter (e.g. ?currency=USD).
 
 ### GraphQL
 
