@@ -51,13 +51,21 @@ input UpdateInvoiceInput {
   account_id: ID!
 }
 
+input CreateInvoiceByEmailInput {
+  amount_original: Float!
+  currency: String!
+  email: String!
+}
+
 type Mutation {
   createAccount(input: CreateAccountInput!): Account!
   updateAccount(id: ID!, input: UpdateAccountInput!): Account!
   deleteAccount(id: ID!): Boolean!
+  createInvoiceByEmail(input: CreateInvoiceByEmailInput!): Invoice!
 
   createInvoice(input: CreateInvoiceInput!): Invoice!
   updateInvoice(id: ID!, input: UpdateInvoiceInput!): Invoice!
   deleteInvoice(id: ID!): Boolean!
   deleteAllInvoices: Boolean!
 }
+

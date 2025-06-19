@@ -7,33 +7,32 @@ from app.crud.accounts import get_account
 from app.crud.exchange_rates import validate_currency_code, get_conversion_rate
 
 def create_invoice(db: Session, invoice_in: InvoiceCreate) -> Invoice:
-    with db.begin():
-        # 1) check if account exists
-        acct = get_account(db, invoice_in.account_id)
-        if not acct:
-            raise HTTPException(status_code=404, detail="Account not found.")
+    # 1) check if account exists
+    acct = get_account(db, invoice_in.account_id)
+    if not acct:
+        raise HTTPException(status_code=404, detail="Account not found.")
 
-        # 2) validate currency code
-        validate_currency_code(invoice_in.currency)
+    # 2) validate currency code
+    validate_currency_code(invoice_in.currency)
 
-        # 3) get exchange rate
-        rate = get_conversion_rate(invoice_in.currency)
-        converted = invoice_in.amount_original * rate
+    # 3) get exchange rate
+    rate = get_conversion_rate(invoice_in.currency)
+    converted = invoice_in.amount_original * rate
 
-        # 4) store invoice
-        inv = Invoice(
-            amount_original=invoice_in.amount_original,
-            currency=invoice_in.currency,
-            account_id=invoice_in.account_id,
-            amount_default=converted
-        )
-        db.add(inv)
+    # 4) store invoice
+    inv = Invoice(
+        amount_original=invoice_in.amount_original,
+        currency=invoice_in.currency,
+        account_id=invoice_in.account_id,
+        amount_default=converted
+    )
+    db.add(inv)
 
-        # 5) edit summary table
-        summary = db.query(InvoiceSummary).first()
-        summary.total_revenue += converted
-        summary.invoice_count += 1
-
+    # 5) edit summary table
+    summary = db.query(InvoiceSummary).first()
+    summary.total_revenue += converted
+    summary.invoice_count += 1
+    db.commit()
     db.refresh(inv)
     return inv
 

@@ -15,6 +15,8 @@ RUN apt-get update \
 # 4. Copy & install Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY wait-for-it.sh .
+
 
 # 5. Copy your app code
 COPY . .
